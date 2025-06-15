@@ -18,4 +18,8 @@ public class CardHolder{
     public PVector getPos() {
         return pos;
     }
+
+    public void addCard(Card card) {
+        cards.add(card);
+    }
 }
