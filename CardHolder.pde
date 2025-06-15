@@ -14,4 +14,8 @@ public class CardHolder{
         fill(255);
         rect(pos.x - 10, pos.y - 10, 20, 20);
     }
+
+    public PVector getPos() {
+        return pos;
+    }
 }
