@@ -1,5 +1,5 @@
 float cardWidth, cardHeight;
-Card cards[] = new Card[52];
+ArrayList<Card> cards = new ArrayList<>();
 CardHolder stock, waste;
 CardHolder foundations[] = new CardHolder[4];
 CardHolder tableau[] = new CardHolder[7];
@@ -25,22 +25,20 @@ void initGame() {
     initTableau(margin);
 
     initCards();
+
+
 }
 
 void initCards() {
     Suits[] suits = {Suits.SPADES, Suits.HEARTS, Suits.CLUBS, Suits.DIAMONDS};
 
-    int idx = 0;
     for (int rank = 1; rank <= 13; rank++) {
         for (Suits suit: suits) {
-            cards[idx++] = new Card(stock.getPos(), rank, suit);
+            cards.add(new Card(rank, suit));
         }
     }
 
     shuffleCards();
-    for (Card card: cards) {
-        card.draw();
-    }
 }
 
 void initStockAndWate(float margin) {
@@ -77,12 +75,12 @@ private float lerpf(float start, float stop, int step, int maxSteps) {
 }
 
 private void shuffleCards() {
-    for (int i = 0; i < cards.length * 3; i++) {
-        int idx1 = (int) random(cards.length);
-        int idx2 = (int) random(cards.length);
+    for (int i = 0; i < cards.size() * 3; i++) {
+        int idx1 = (int) random(cards.size());
+        int idx2 = (int) random(cards.size());
         
-        Card temp = cards[idx1];
-        cards[idx1] = cards[idx2];
-        cards[idx2] = temp;
+        Card temp = cards.get(idx1);
+        cards.set(idx1, cards.get(idx2));
+        cards.set(idx2, temp);
     }
 }
