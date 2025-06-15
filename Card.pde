@@ -5,7 +5,7 @@ public class Card{
     Suits suit;
     PImage suitImg;
 
-    float fontSize = 24;
+    float fontSize;
 
     public Card(PVector pos, int rank, Suits suit){
         this.pos = pos;
@@ -14,6 +14,7 @@ public class Card{
         this.rank = rank;
         this.suit = suit;
         this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
+        this.fontSize = wid * 0.3;
     }
 
     public Card(float x, float y, int rank, Suits suit){
