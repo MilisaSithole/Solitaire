@@ -34,8 +34,12 @@ void initCards() {
     for (int rank = 1; rank <= 13; rank++) {
         for (Suits suit: suits) {
             cards[idx++] = new Card(stock.getPos(), rank, suit);
-            cards[idx-1].draw();
         }
+    }
+
+    shuffleCards();
+    for (Card card: cards) {
+        card.draw();
     }
 }
 
@@ -70,4 +74,15 @@ private float lerpf(float start, float stop, float amt) {
 
 private float lerpf(float start, float stop, int step, int maxSteps) {
     return lerpf(start, stop, step / (float)maxSteps);
+}
+
+private void shuffleCards() {
+    for (int i = 0; i < cards.length * 3; i++) {
+        int idx1 = (int) random(cards.length);
+        int idx2 = (int) random(cards.length);
+        
+        Card temp = cards[idx1];
+        cards[idx1] = cards[idx2];
+        cards[idx2] = temp;
+    }
 }
