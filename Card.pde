@@ -1,32 +1,57 @@
 public class Card{
     PVector pos;
     float wid, hei;
-    String rank, suit;
+    int rank;
+    Suits suit;
+    PImage suitImg;
 
-    public Card(PVector pos, float cardWidth, String rank, String suit){
+    float fontSize = 24;
+
+    public Card(PVector pos, int rank, Suits suit){
         this.pos = pos;
-        this.wid = cardWidth;
-        this.hei = cardWidth / 2.5 * 3.5;
+        this.wid = width / 7 * 0.9;
+        this.hei = wid / 2.5 * 3.5;
         this.rank = rank;
         this.suit = suit;
+        this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
     }
 
-    public Card(float x, float y, float cardWidth, String rank, String suit){
-        this.pos = new PVector(x, y);
-        this.wid = cardWidth;
-        this.hei = cardWidth / 2.5 * 3.5;
-        this.rank = rank;
-        this.suit = suit;
+    public Card(float x, float y, int rank, Suits suit){
+        this(new PVector(x, y), rank, suit);
     }
 
     public void draw(){
         noStroke();
         fill(204);
+        rectMode(CENTER);
         rect(pos.x, pos.y, wid, hei, 12);
 
+        drawRankAndSuit();
+    }
+
+    private void drawRankAndSuit() {
         textAlign(CENTER, CENTER);
-        textSize(24);
+        imageMode(CENTER);
+        textSize(fontSize);
+        suitImg.resize((int)fontSize, 0);
+
+        float rankTextWidth = textWidth(getRankSymbol(rank));
+        float totalWidth = rankTextWidth + suitImg.width;
+        
         fill(51);
-        text(rank + suit, pos.x + wid/2, pos.y + hei/2);
+        text(getRankSymbol(rank), pos.x + rankTextWidth/2 - totalWidth/2, pos.y);
+        tint(color(51));
+        image(suitImg, pos.x + totalWidth/2 - suitImg.width/2, pos.y);
+        noTint();
+    }
+
+    private String getRankSymbol(int rank) {
+        switch (rank) {
+            case 1: return "A";
+            case 11: return "J";
+            case 12: return "Q";
+            case 13: return "K";
+            default: return String.valueOf(rank);
+        }
     }
 }
