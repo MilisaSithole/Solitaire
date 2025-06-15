@@ -19,14 +19,12 @@ void draw() {
 }
 
 void initGame() {
-    float margin = cardHeight * 0.1;
-    initStockAndWate(margin);
-    initFoundations(margin);
-    initTableau(margin);
-
     initCards();
 
-
+    float margin = cardHeight * 0.1;
+    initStockAndWaste(margin);
+    initFoundations(margin);
+    initTableau(margin);
 }
 
 void initCards() {
@@ -41,7 +39,7 @@ void initCards() {
     shuffleCards();
 }
 
-void initStockAndWate(float margin) {
+void initStockAndWaste(float margin) {
     stock = new CardHolder(cardWidth/2 + margin, cardHeight/2 + margin, StackType.NUM);
     waste = new CardHolder(cardWidth/2 + (margin + cardWidth), cardHeight/2 + margin, StackType.NONE);
 
