@@ -21,6 +21,11 @@ public class Card{
         this(new PVector(x, y), rank, suit);
     }
 
+    public Card(int rank, Suits suit){
+        this.rank = rank;
+        this.suit = suit;
+    }
+
     public void draw(){
         noStroke();
         fill(204);
@@ -54,5 +59,18 @@ public class Card{
             case 13: return "K";
             default: return String.valueOf(rank);
         }
+    }
+
+    @Override
+    public String toString() {
+        return getRankSymbol(rank) + " of " + suit.getName() + "s";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Card)) return false;
+        Card other = (Card) obj;
+        return rank == other.rank && suit == other.suit;
     }
 }
