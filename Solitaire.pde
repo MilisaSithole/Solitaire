@@ -19,28 +19,22 @@ void draw() {
 }
 
 void initGame() {
-    initCards();
-
     float margin = cardHeight * 0.1;
     initStockAndWate(margin);
     initFoundations(margin);
     initTableau(margin);
+
+    initCards();
 }
 
 void initCards() {
-    String[] suits = {"♠", "♥", "♦", "♣"};
+    Suits[] suits = {Suits.SPADES, Suits.HEARTS, Suits.CLUBS, Suits.DIAMONDS};
 
     int idx = 0;
     for (int rank = 1; rank <= 13; rank++) {
-        for (string suit: suits) {
-            cards[idx++] = new Card()
-        }
-    }
-    int index = 0;
-    for (String suit : suits) {
-        for (String rank : ranks) {
-            cards[index] = new Card((index % 13) * cardWidth, (index / 13) * cardHeight, cardWidth, rank, suit);
-            index++;
+        for (Suits suit: suits) {
+            cards[idx++] = new Card(stock.getPos(), rank, suit);
+            cards[idx-1].draw();
         }
     }
 }
