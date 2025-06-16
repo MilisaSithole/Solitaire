@@ -1,6 +1,5 @@
 public class Tableau extends CardHolder {
-    float hiddenHeight = cardHeight * 0.1;
-    float hiddenFontSize = hiddenHeight * 0.8;
+    float hiddenHeight = cardHeight * 0.05;
 
     public Tableau(float x, float y) {
         super(x, y);
@@ -20,15 +19,7 @@ public class Tableau extends CardHolder {
 
         fill(250, 50, 100);
         rectMode(CENTER);
-        rect(pos.x, 
-            pos.y - cardHeight/2 + hiddenHeight*numHiddenCards/2, 
-            cardWidth, 
-            hiddenHeight*numHiddenCards, 
-            12);
-
-        textAlign(CENTER, CENTER);
-        textSize(hiddenFontSize);
-        fill(51);
-        text(numHiddenCards, pos.x, pos.y - cardHeight/2 + hiddenHeight*numHiddenCards/2);
+        float y = pos.y - cardHeight/2 + hiddenHeight*numHiddenCards/2;
+        rect(pos.x, y, cardWidth, hiddenHeight*numHiddenCards, 12);
     }
 }
