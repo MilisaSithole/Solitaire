@@ -41,7 +41,7 @@ ArrayList<Card> initCards() {
 }
 
 void initStockAndWaste(float margin, ArrayList<Card> cards) {
-    stock = new CardHolder(cardWidth/2 + margin, cardHeight/2 + margin, StackType.NUM);
+    stock = new Stock(cardWidth/2 + margin, cardHeight/2 + margin, StackType.NUM);
     for (Card card: cards)
         stock.addCard(card);
     waste = new CardHolder(cardWidth/2 + (margin + cardWidth), cardHeight/2 + margin, StackType.NONE);
