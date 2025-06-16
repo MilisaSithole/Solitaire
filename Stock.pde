@@ -19,5 +19,7 @@ public class Stock extends CardHolder {
         if (cards.size() > 0) {
             return cards.remove(cards.size() - 1);
         }
+
+        return null;
     }
 }
