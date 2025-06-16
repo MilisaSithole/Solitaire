@@ -41,10 +41,10 @@ ArrayList<Card> initCards() {
 }
 
 void initStockAndWaste(float margin, ArrayList<Card> cards) {
-    stock = new Stock(cardWidth/2 + margin, cardHeight/2 + margin, StackType.NUM);
+    stock = new Stock(cardWidth/2 + margin, cardHeight/2 + margin);
     for (Card card: cards)
         stock.addCard(card);
-    waste = new CardHolder(cardWidth/2 + (margin + cardWidth), cardHeight/2 + margin, StackType.NONE);
+    waste = new Waste(cardWidth/2 + (margin + cardWidth), cardHeight/2 + margin);
 
     stock.draw();
     waste.draw();
@@ -52,7 +52,7 @@ void initStockAndWaste(float margin, ArrayList<Card> cards) {
 
 void initFoundations(float margin) {
     for (int i = 0; i < foundations.length; i++){
-        foundations[i] = new CardHolder(width - (margin + cardWidth * (3 - i)) - (cardWidth/2), cardHeight/2 + margin, StackType.NONE);
+        foundations[i] = new Waste(width - (margin + cardWidth * (3 - i)) - (cardWidth/2), cardHeight/2 + margin);
         foundations[i].draw();
     }
 }
