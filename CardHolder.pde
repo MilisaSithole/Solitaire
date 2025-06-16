@@ -9,33 +9,27 @@ public class CardHolder{
     float cardHeight = cardWidth / 2.5 * 3.5;
     float fontSize = cardWidth * 0.3;
 
+    float hiddenHeight = cardHeight * 0.1;
+
     public CardHolder(float x, float y, StackType stackType) {
         pos = new PVector(x, y);
         type = stackType;
     }
 
     public void draw() {
-        fill(255);
-        rect(pos.x - 10, pos.y - 10, 20, 20);
+        // fill(255);
+        // rect(pos.x - 10, pos.y - 10, 20, 20);
 
         switch (type) {
             case NUM:
                 drawNum();
                 break;
+            case VERT:
+                drawVert();
+                break;
             default:
                 break;
         }
-    }
-
-    public void drawNum() {
-        fill(50, 150, 250);
-        rectMode(CENTER);
-        rect(pos.x, pos.y, cardWidth, cardHeight, 12);
-
-        textAlign(CENTER, CENTER);
-        textSize(fontSize);
-        fill(51);
-        text(cards.size(), pos.x, pos.y);
     }
 
     public PVector getPos() {
@@ -49,5 +43,37 @@ public class CardHolder{
 
     public int getSize() {
         return cards.size();
+    }
+
+    private void drawNum() {
+        fill(250, 50, 100);
+        rectMode(CENTER);
+        rect(pos.x, pos.y, cardWidth, cardHeight, 12);
+
+        textAlign(CENTER, CENTER);
+        textSize(fontSize);
+        fill(51);
+        text(cards.size(), pos.x, pos.y);
+    }
+
+    private void drawVert() {
+        int numCards = cards.size() - 1;
+        drawHidden(numCards);
+
+        float offset = numCards < 1 ? 0 : hiddenHeight * (numCards + 1);
+        cards.get(cards.size()-1).draw(pos.x, pos.y + offset);
+    }
+
+    private void drawHidden(int numCards) {
+        if (numCards < 1) return;
+
+        fill(250, 50, 100);
+        rectMode(CENTER);
+        rect(pos.x, pos.y - cardHeight/2 + hiddenHeight*numCards/2, cardWidth, hiddenHeight*numCards, 12);
+
+        textAlign(CENTER, CENTER);
+        textSize(hiddenHeight * 0.8);
+        fill(51);
+        text(numCards, pos.x, pos.y - cardHeight/2 + hiddenHeight*numCards/2);
     }
 }
