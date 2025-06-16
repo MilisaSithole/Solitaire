@@ -24,15 +24,24 @@ public class Card{
     public Card(int rank, Suits suit){
         this.rank = rank;
         this.suit = suit;
+        this.wid = width / 7 * 0.9;
+        this.hei = wid / 2.5 * 3.5;
+        this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
+        this.fontSize = wid * 0.3;
     }
 
     public void draw(){
         noStroke();
-        fill(204);
+        fill(250);
         rectMode(CENTER);
         rect(pos.x, pos.y, wid, hei, 12);
 
         drawRankAndSuit();
+    }
+
+    public void draw(float x, float y){
+        pos.set(x, y);
+        draw();
     }
 
     public void setPosition(PVector pos) {
@@ -40,6 +49,8 @@ public class Card{
     }
 
     private void drawRankAndSuit() {
+        color colour = suit == Suits.HEARTS || suit == Suits.DIAMONDS ? color(250, 50, 100) : color(51);
+
         textAlign(CENTER, CENTER);
         imageMode(CENTER);
         textSize(fontSize);
@@ -48,9 +59,9 @@ public class Card{
         float rankTextWidth = textWidth(getRankSymbol(rank));
         float totalWidth = rankTextWidth + suitImg.width;
         
-        fill(51);
+        fill(colour);
         text(getRankSymbol(rank), pos.x + rankTextWidth/2 - totalWidth/2, pos.y);
-        tint(color(51));
+        tint(colour);
         image(suitImg, pos.x + totalWidth/2 - suitImg.width/2, pos.y);
         noTint();
     }
