@@ -35,6 +35,10 @@ public class Card{
         drawRankAndSuit();
     }
 
+    public void setPosition(PVector pos) {
+        this.pos = pos;
+    }
+
     private void drawRankAndSuit() {
         textAlign(CENTER, CENTER);
         imageMode(CENTER);
