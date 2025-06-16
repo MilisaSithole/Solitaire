@@ -9,4 +9,10 @@ public class Waste extends CardHolder {
             cards.get(cards.size() - 1).draw();
         }
     }
+
+    @Override
+    public void addCard(Card card) {
+        card.setPosition(pos);
+        cards.add(card);
+    }
 }
