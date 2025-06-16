@@ -40,7 +40,7 @@ public class Card{
     }
 
     public void draw(float x, float y){
-        pos.set(x, y);
+        pos = new PVector(x, y);
         draw();
     }
 
