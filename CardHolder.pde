@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public abstract class CardHolder {
     PVector pos;
     ArrayList<Card> cards = new ArrayList();
+    boolean selected = false;
 
     float cardWidth = width / 7 * 0.9;
     float cardHeight = cardWidth / 2.5 * 3.5;
@@ -26,5 +27,19 @@ public abstract class CardHolder {
 
     public int getSize() {
         return cards.size();
+    }
+
+    public void toggleSelected() {
+        selected = !selected;
+    }
+
+    protected void highlight() {
+        stroke(250);
+        noFill();
+        strokeWeight(2);
+        rectMode(CENTER);
+
+        float offset = cardWidth * 0.075;
+        rect(pos.x, pos.y, cardWidth + offset, cardHeight + offset, 12);
     }
 }
