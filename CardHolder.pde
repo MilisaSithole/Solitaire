@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 
-public class CardHolder{
+public abstract class CardHolder {
     PVector pos;
-    StackType type;
     ArrayList<Card> cards = new ArrayList();
 
     float cardWidth = width / 7 * 0.9;
@@ -11,26 +10,11 @@ public class CardHolder{
 
     float hiddenHeight = cardHeight * 0.1;
 
-    public CardHolder(float x, float y, StackType stackType) {
+    public CardHolder(float x, float y) {
         pos = new PVector(x, y);
-        type = stackType;
     }
 
-    public void draw() {
-        // fill(255);
-        // rect(pos.x - 10, pos.y - 10, 20, 20);
-
-        switch (type) {
-            case NUM:
-                drawNum();
-                break;
-            case VERT:
-                drawVert();
-                break;
-            default:
-                break;
-        }
-    }
+    public abstract void draw();
 
     public PVector getPos() {
         return pos;
@@ -43,17 +27,6 @@ public class CardHolder{
 
     public int getSize() {
         return cards.size();
-    }
-
-    private void drawNum() {
-        fill(250, 50, 100);
-        rectMode(CENTER);
-        rect(pos.x, pos.y, cardWidth, cardHeight, 12);
-
-        textAlign(CENTER, CENTER);
-        textSize(fontSize);
-        fill(51);
-        text(cards.size(), pos.x, pos.y);
     }
 
     private void drawVert() {
