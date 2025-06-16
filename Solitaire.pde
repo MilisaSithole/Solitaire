@@ -62,7 +62,7 @@ void initTableau(float margin, ArrayList<Card> cards) {
     float end = width - (cardWidth / 2 + margin);
 
     for (int i = 0; i < tableau.length; i++) {
-        tableau[i] = new Tableau(lerpf(start, end, i, tableau.length-1), cardHeight * 1.5 + margin);
+        tableau[i] = new Tableau(lerpf(start, end, i, tableau.length-1), cardHeight * 1.5 + margin * 2);
         for (int j = 0; j < i+1; j++) {
             tableau[i].addCard(cards.remove(0));
         }
