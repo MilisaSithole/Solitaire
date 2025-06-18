@@ -9,6 +9,29 @@ public class GameManager {
         initGame();
     }
 
+    public void draw() {
+        stock.draw();
+        waste.draw();
+        for (Waste foundation : foundations) {
+            foundation.draw();
+        }
+        for (Tableau t : tableau) {
+            t.draw();
+        }
+    }
+
+    public void handleClick(float x, float y) {
+        if (stock.isClicked(x, y)){
+            Card drawnCard = stock.handleClick();
+            println("Card drawn from stock: " + drawnCard);
+
+            if (drawnCard != null)
+                waste.addCard(drawnCard);
+            else
+                stock.initCards(waste.popAll());
+        }
+    }
+
     private void initGame() {
         ArrayList<Card> cards = initCards();
         cardWidth = cards.get(0).getWidth();
@@ -35,9 +58,12 @@ public class GameManager {
     }
 
     private void initStockAndWaste(float margin, ArrayList<Card> cards) {
-        stock = new Stock(cardWidth/2 + margin, cardHeight/2 + margin);
+        float startX = cardWidth / 2 + margin;
+        float endX = width - (cardWidth / 2 + margin);
+
+        stock = new Stock(lerpf(startX, endX, 0, tableau.length-1), cardHeight/2 + margin);
         stock.initCards(cards);
-        waste = new Waste(cardWidth/2 + (margin + cardWidth), cardHeight/2 + margin);
+        waste = new Waste(lerpf(startX, endX, 1, tableau.length-1), cardHeight/2 + margin);
 
         stock.draw();
         waste.draw();

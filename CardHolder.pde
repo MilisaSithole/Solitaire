@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class CardHolder {
     PVector pos;
@@ -36,10 +37,24 @@ public abstract class CardHolder {
         selected = !selected;
     }
 
-    protected void initCards(ArrayList<Card> cards) {
+    public void initCards(ArrayList<Card> cards) {
         for (Card card: cards) {
             addCard(card);
         }
+    }
+
+    public boolean isClicked(float x, float y) {
+        if (x > pos.x - cardWidth/2 && x < pos.x + cardWidth/2 &&
+            y > pos.y - cardHeight/2 && y < pos.y + cardHeight/2) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Card handleClick() {
+        toggleSelected();
+        return cards.size() > 0 ? cards.get(cards.size() - 1) : null;
     }
 
     protected void highlight() {

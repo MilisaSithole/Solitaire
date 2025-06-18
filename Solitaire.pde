@@ -8,5 +8,10 @@ void setup() {
 }
 
 void draw() {
-    
+    background(51);
+    gameManager.draw();
+}
+
+void mousePressed() {
+    gameManager.handleClick(mouseX, mouseY);
 }
