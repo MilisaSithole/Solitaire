@@ -7,20 +7,6 @@ public class Card{
 
     float fontSize;
 
-    public Card(PVector pos, int rank, Suits suit){
-        this.pos = pos;
-        this.wid = width / 7 * 0.9;
-        this.hei = wid / 2.5 * 3.5;
-        this.rank = rank;
-        this.suit = suit;
-        this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
-        this.fontSize = wid * 0.3;
-    }
-
-    public Card(float x, float y, int rank, Suits suit){
-        this(new PVector(x, y), rank, suit);
-    }
-
     public Card(int rank, Suits suit){
         this.rank = rank;
         this.suit = suit;
@@ -42,6 +28,14 @@ public class Card{
     public void draw(float x, float y){
         pos = new PVector(x, y);
         draw();
+    }
+
+    public float getWidth() {
+        return wid;
+    }
+
+    public float getHeight() {
+        return hei;
     }
 
     public void setPosition(PVector pos) {
