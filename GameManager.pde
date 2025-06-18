@@ -1,18 +1,18 @@
 public class GameManager {
-    CardHolder stock, waste;
-    CardHolder foundations[] = new CardHolder[4];
-    CardHolder tableau[] = new CardHolder[7];\
+    Stock stock;
+    Waste waste;
+    Waste foundations[] = new Waste[4];
+    Tableau tableau[] = new Tableau[7];
     float cardWidth, cardHeight;
 
     public GameManager() {
-        cardWidth = width / 7 * 0.9f;
-        cardHeight = cardWidth / 2.5f * 3.5f;
-
         initGame();
     }
 
     private void initGame() {
         ArrayList<Card> cards = initCards();
+        cardWidth = cards.get(0).getWidth();
+        cardHeight = cards.get(0).getHeight();
 
         float margin = cardHeight * 0.1;
         initTableau(margin, cards);
@@ -36,8 +36,7 @@ public class GameManager {
 
     private void initStockAndWaste(float margin, ArrayList<Card> cards) {
         stock = new Stock(cardWidth/2 + margin, cardHeight/2 + margin);
-        for (Card card: cards)
-            stock.addCard(card);
+        stock.initCards(cards);
         waste = new Waste(cardWidth/2 + (margin + cardWidth), cardHeight/2 + margin);
 
         stock.draw();
@@ -52,14 +51,16 @@ public class GameManager {
     }
 
     private void initTableau(float margin, ArrayList<Card> cards) {
-        float start = cardWidth / 2 + margin;
-        float end = width - (cardWidth / 2 + margin);
+        float startX = cardWidth / 2 + margin;
+        float endX = width - (cardWidth / 2 + margin);
 
         for (int i = 0; i < tableau.length; i++) {
-            tableau[i] = new Tableau(lerpf(start, end, i, tableau.length-1), cardHeight * 1.5 + margin * 2);
+            tableau[i] = new Tableau(lerpf(startX, endX, i, tableau.length-1), cardHeight * 1.5 + margin * 2);
+            ArrayList<Card> tableauCards = new ArrayList<>();
             for (int j = 0; j < i+1; j++) {
-                tableau[i].addCard(cards.remove(0));
+                tableauCards.add(cards.remove(0));
             }
+            tableau[i].initCards(tableauCards);
             tableau[i].draw();
         }
     }
