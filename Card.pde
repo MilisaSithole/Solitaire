@@ -10,7 +10,7 @@ public class Card{
     public Card(int rank, Suits suit){
         this.rank = rank;
         this.suit = suit;
-        this.wid = width / 7 * 0.9;
+        this.wid = width / 7.5 * 0.9;
         this.hei = wid / 2.5 * 3.5;
         this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
         this.fontSize = wid * 0.3;
