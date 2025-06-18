@@ -1,5 +1,5 @@
 public class Tableau extends CardHolder {
-    float hiddenHeight = cardHeight * 0.05;
+    float hiddenHeight;
 
     public Tableau(float x, float y) {
         super(x, y);
@@ -12,6 +12,12 @@ public class Tableau extends CardHolder {
 
         float offset = numHiddenCards < 1 ? 0 : hiddenHeight * (numHiddenCards + 1);
         cards.get(cards.size()-1).draw(pos.x, pos.y + offset);
+    }
+
+    @Override
+    public void initCards(ArrayList<Card> cards) {
+        super.initCards(cards);
+        hiddenHeight = cardHeight * 0.05;
     }
 
     private void drawHidden(int numHiddenCards) {
