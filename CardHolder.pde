@@ -5,11 +5,7 @@ public abstract class CardHolder {
     ArrayList<Card> cards = new ArrayList();
     boolean selected = false;
 
-    float cardWidth = width / 7 * 0.9;
-    float cardHeight = cardWidth / 2.5 * 3.5;
-    float fontSize = cardWidth * 0.3;
-
-    float hiddenHeight = cardHeight * 0.1;
+    float cardWidth, cardHeight, fontSize, hiddenHeight;
 
     public CardHolder(float x, float y) {
         pos = new PVector(x, y);
@@ -22,6 +18,13 @@ public abstract class CardHolder {
     }
 
     public void addCard(Card card) {
+        if (cards.size() == 0) {
+            cardWidth = card.getWidth();
+            cardHeight = card.getHeight();
+            fontSize = cardWidth * 0.3;
+            hiddenHeight = cardHeight * 0.1;
+        }
+
         cards.add(card);
     }
 
@@ -31,6 +34,12 @@ public abstract class CardHolder {
 
     public void toggleSelected() {
         selected = !selected;
+    }
+
+    protected void initCards(ArrayList<Card> cards) {
+        for (Card card: cards) {
+            addCard(card);
+        }
     }
 
     protected void highlight() {
