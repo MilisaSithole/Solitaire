@@ -5,6 +5,10 @@ public class GameManager {
     Tableau tableau[] = new Tableau[7];
     float cardWidth, cardHeight;
 
+    Card selectedCard;
+    Integer selectedCardFrom; // 0: waste, 1-4: foundations, 5-11: tableau
+    Integer selectedTableau;
+
     public GameManager() {
         initGame();
     }
@@ -12,26 +16,47 @@ public class GameManager {
     public void draw() {
         stock.draw();
         waste.draw();
-        for (Waste foundation : foundations) {
+        for (Waste foundation: foundations) {
             foundation.draw();
         }
-        for (Tableau t : tableau) {
+        for (Tableau t: tableau) {
             t.draw();
         }
     }
 
     public void handleClick(float x, float y) {
         if (stock.isClicked(x, y)){
-            Card drawnCard = stock.handleClick();
+            clearHighlight();
+            selectedCard = stock.handleClick();
 
-            if (drawnCard != null)
-                waste.addCard(drawnCard);
+            if (selectedCard != null) {
+                waste.addCard(selectedCard);
+                selectedCard = null;
+            }
             else
                 stock.initCards(waste.popAll());
         }
         else if (waste.isClicked(x, y)) {
-            Card drawnCard = waste.handleClick();
+            if (selectedCard != null && selectedCardFrom != 0) {
+                returnSelectedCard();
+                clearHighlight();
+            }
+
+            selectedCard = waste.handleClick();
+            handleSetSelectedCardFrom(0);
         }
+        else if (tableauIsClicked(x, y)) {
+            if (selectedCard != null) {
+                tableau[selectedTableau].addCard(selectedCard);
+                popSelectedCard();
+            }
+            else {
+                selectedCard = tableau[selectedTableau].handleClick();
+                handleSetSelectedCardFrom(5 + selectedTableau);
+            }
+        }
+
+        println("Selected Card: " + selectedCard);
     }
 
     private void initGame() {
@@ -91,6 +116,67 @@ public class GameManager {
             tableau[i].initCards(tableauCards);
             tableau[i].draw();
         }
+    }
+
+    private boolean tableauIsClicked(float x, float y) {
+        for (int i = 0; i < tableau.length; i++) {
+            boolean isClicked = tableau[i].isClicked(x, y);
+            if (isClicked) {
+                selectedTableau = i;
+                return isClicked;
+            }
+        }
+
+        return false;
+    }
+
+    private void returnSelectedCard() {
+        if (selectedCard != null) {
+            if (selectedCardFrom == 0) {
+                waste.addCard(selectedCard);
+            } else if (selectedCardFrom >= 1 && selectedCardFrom <= 4) {
+                foundations[selectedCardFrom - 1].addCard(selectedCard);
+            } else if (selectedCardFrom >= 5 && selectedCardFrom <= 11) {
+                tableau[selectedCardFrom - 5].addCard(selectedCard);
+            }
+            clearSelected();
+        }
+    }
+
+    private void popSelectedCard() {
+        if (selectedCard != null) {
+            if (selectedCardFrom == 0) {
+                waste.popCard();
+            } else if (selectedCardFrom >= 1 && selectedCardFrom <= 4) {
+                foundations[selectedCardFrom - 1].popCard();
+            } else if (selectedCardFrom >= 5 && selectedCardFrom <= 11) {
+                tableau[selectedCardFrom - 5].popCard();
+            }
+            clearSelected();
+        }
+    }
+
+    private void clearHighlight() {
+        waste.unselect();
+        for (Waste foundation: foundations) {
+            foundation.unselect();
+        }
+        for (Tableau t: tableau) {
+            t.unselect();
+        }
+    }
+
+    private void handleSetSelectedCardFrom(int from) {
+        if (selectedCard != null) {
+            selectedCardFrom = from;
+        } else {
+            selectedCardFrom = null;
+        }
+    }
+
+    private void clearSelected() {
+        selectedCard = null;
+        selectedCardFrom = null;
     }
 
     private void shuffleCards(ArrayList<Card> cards) {
