@@ -23,6 +23,7 @@ public class Tableau extends CardHolder {
     private void drawHidden(int numHiddenCards) {
         if (numHiddenCards < 1) return;
 
+        noStroke();
         fill(250, 50, 100);
         rectMode(CENTER);
         float y = pos.y - cardHeight/2 + hiddenHeight*numHiddenCards/2;
