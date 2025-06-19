@@ -2,6 +2,8 @@
 
 Welcome to my Solitaire Game! This classic card game has been recreated in Processing, bringing the timeless patience game to your computer. Arrange cards in descending order while alternating colors, and build up foundation piles to win.
 
+![Screenshot](Assets/gameScreenshot.png "Game screenshot")
+
 ## Running the Game
 
 This game is developed in Processing. To run the game:
