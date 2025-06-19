@@ -23,12 +23,14 @@ public class GameManager {
     public void handleClick(float x, float y) {
         if (stock.isClicked(x, y)){
             Card drawnCard = stock.handleClick();
-            println("Card drawn from stock: " + drawnCard);
 
             if (drawnCard != null)
                 waste.addCard(drawnCard);
             else
                 stock.initCards(waste.popAll());
+        }
+        else if (waste.isClicked(x, y)) {
+            Card drawnCard = waste.handleClick();
         }
     }
 
