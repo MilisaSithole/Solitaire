@@ -53,8 +53,10 @@ public abstract class CardHolder {
     }
 
     public Card handleClick() {
+        if (cards.size() == 0) return null;
+
         toggleSelected();
-        return cards.size() > 0 ? cards.get(cards.size() - 1) : null;
+        return cards.get(cards.size() - 1);
     }
 
     protected void highlight() {
