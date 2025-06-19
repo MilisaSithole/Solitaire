@@ -1,4 +1,4 @@
-public class Card{
+public class Card {
     PVector pos;
     float wid, hei;
     int rank;
@@ -7,7 +7,7 @@ public class Card{
 
     float fontSize;
 
-    public Card(int rank, Suits suit){
+    public Card(int rank, Suits suit) {
         this.rank = rank;
         this.suit = suit;
         this.wid = width / 7.5 * 0.9;
@@ -16,7 +16,7 @@ public class Card{
         this.fontSize = wid * 0.3;
     }
 
-    public void draw(){
+    public void draw() {
         noStroke();
         fill(250);
         rectMode(CENTER);
@@ -25,7 +25,7 @@ public class Card{
         drawRankAndSuit();
     }
 
-    public void draw(float x, float y){
+    public void draw(float x, float y) {
         pos = new PVector(x, y);
         draw();
     }
