@@ -30,6 +30,11 @@ public class Card{
         draw();
     }
 
+    public boolean isClicked(float x, float y) {
+        return x > pos.x - wid/2 && x < pos.x + wid/2 &&
+               y > pos.y - hei/2 && y < pos.y + hei/2;
+    }
+
     public float getWidth() {
         return wid;
     }
