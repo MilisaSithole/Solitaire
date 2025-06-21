@@ -30,6 +30,17 @@ public class Card {
         draw();
     }
 
+    public void draw(float x, float y, float height) {
+        pos = new PVector(x, y);
+
+        noStroke();
+        fill(250);
+        rectMode(CENTER);
+        rect(pos.x, pos.y, wid, hei, 12);
+
+        drawRankAndSuit(height);
+    }
+
     public boolean isClicked(float x, float y) {
         return x > pos.x - wid/2 && x < pos.x + wid/2 &&
                y > pos.y - hei/2 && y < pos.y + hei/2;
@@ -64,6 +75,30 @@ public class Card {
         image(suitImg, pos.x + totalWidth/2 - suitImg.width/2, pos.y);
         noTint();
     }
+
+    private void drawRankAndSuit(float visibleHeight) {
+        color colour = suit == Suits.HEARTS || suit == Suits.DIAMONDS ? color(250, 50, 100) : color(51);
+        float visibleFontSize = visibleHeight * 0.8;
+        float horizontalmargin = wid * 0.1;
+        float verticalmargin = visibleHeight * 0.1;
+
+        textAlign(CENTER, CENTER);
+        imageMode(CENTER);
+        textSize(visibleFontSize);
+        suitImg.resize((int)visibleFontSize, 0);
+
+        float rankTextWidth = textWidth(getRankSymbol(rank));
+        float totalWidth = rankTextWidth + suitImg.width;
+        
+        fill(colour);
+        text(getRankSymbol(rank), 
+            pos.x - wid/2 + horizontalmargin + rankTextWidth/2, 
+            pos.y - hei/2 + verticalmargin + visibleFontSize/2);
+        tint(colour);
+        image(suitImg, 
+            pos.x - wid/2 + horizontalmargin + rankTextWidth + suitImg.width/2, 
+            pos.y - hei/2 + verticalmargin + visibleFontSize/2);
+        noTint();    }
 
     private String getRankSymbol(int rank) {
         switch (rank) {
