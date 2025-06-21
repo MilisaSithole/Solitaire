@@ -15,3 +15,9 @@ void draw() {
 void mousePressed() {
     gameManager.handleClick(mouseX, mouseY);
 }
+
+void keyPressed() {
+    if (key == 'r') {
+        gameManager = new GameManager();
+    }
+}
