@@ -56,9 +56,13 @@ public class Tableau extends CardHolder {
     private void drawVisible() {
         if (cards.size() < 1) return;
 
-        cardOffset = cardHeight * 0.25;
+        cardOffset = cardHeight * 0.2;
         for (int i = 0; i < cards.size(); i++) {
-            cards.get(i).draw(pos.x, pos.y + hiddenOffset + (i * cardOffset));
+            if (i < cards.size() - 1) {
+                cards.get(i).draw(pos.x, pos.y + hiddenOffset + (i * cardOffset), cardOffset);
+            } else {
+                cards.get(i).draw(pos.x, pos.y + hiddenOffset + (i * cardOffset));
+            }
         }
     }
 
