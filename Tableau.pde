@@ -1,5 +1,5 @@
 public class Tableau extends CardHolder {
-    float hiddenHeight, hiddenOffset, cardOffset;
+    float hiddenHeight, hiddenOffset, cardOffset, totalHeight;
     ArrayList<Card> hiddenCards = new ArrayList<>();
 
     public Tableau(float x, float y) {
@@ -25,6 +25,16 @@ public class Tableau extends CardHolder {
     }
 
     @Override
+    public boolean isClicked(float x, float y) {
+        if (x > pos.x - cardWidth/2 && x < pos.x + cardWidth/2 &&
+            y > pos.y - cardHeight/2 && y < pos.y - cardHeight/2 + totalHeight) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public Card popCard() {
         println();
 
@@ -40,6 +50,18 @@ public class Tableau extends CardHolder {
             return cards.remove(0);
         }
         return null;
+    }
+
+    @Override
+    protected void highlight() {
+        stroke(250);
+        noFill();
+        strokeWeight(2);
+        rectMode(CENTER);
+
+        PVector cardPos = cards.get(cards.size() - 1).getPosition();
+        float offset = cardWidth * 0.075;
+        rect(cardPos.x, cardPos.y, cardWidth + offset, cardHeight + offset, 12);
     }
 
     private void drawHidden() {
@@ -63,6 +85,12 @@ public class Tableau extends CardHolder {
             } else {
                 cards.get(i).draw(pos.x, pos.y + hiddenOffset + (i * cardOffset));
             }
+        }
+
+        totalHeight = hiddenOffset + (cards.size() - 1) * cardOffset + cardHeight;
+
+        if (selected && cards.size() == 1) {
+            highlight();
         }
     }
 
