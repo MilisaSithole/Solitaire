@@ -24,7 +24,6 @@ public class Waste extends CardHolder {
 
     @Override
     public boolean isClicked(float x, float y) {
-        if (cards.size() == 0) return true;
         return super.isClicked(x, y);
     }
 
