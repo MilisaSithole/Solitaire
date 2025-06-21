@@ -1,13 +1,13 @@
 public class GameManager {
     Stock stock;
     Waste waste;
-    Waste foundations[] = new Waste[4];
+    Foundation foundations[] = new Foundation[4];
     Tableau tableau[] = new Tableau[7];
     float cardWidth, cardHeight;
 
     Card selectedCard;
     Integer selectedCardFrom; // 0: waste, 1-4: foundations, 5-11: tableau
-    Integer selectedTableau;
+    Integer selectedTableau, selectedFoundation;
 
     public GameManager() {
         initGame();
@@ -16,7 +16,7 @@ public class GameManager {
     public void draw() {
         stock.draw();
         waste.draw();
-        for (Waste foundation: foundations) {
+        for (Foundation foundation: foundations) {
             foundation.draw();
         }
         for (Tableau t: tableau) {
@@ -26,6 +26,8 @@ public class GameManager {
 
     public void handleClick(float x, float y) {
         if (stock.isClicked(x, y)){
+            println("Stock clicked at: " + x + ", " + y);
+
             clearHighlight();
             selectedCard = stock.handleClick();
 
@@ -37,6 +39,8 @@ public class GameManager {
                 stock.initCards(waste.popAll());
         }
         else if (waste.isClicked(x, y)) {
+            println("Waste clicked at: " + x + ", " + y);
+
             if (selectedCard != null && selectedCardFrom != 0) {
                 returnSelectedCard();
                 clearHighlight();
@@ -46,6 +50,8 @@ public class GameManager {
             handleSetSelectedCardFrom(0);
         }
         else if (tableauIsClicked(x, y)) {
+            println("Tableau clicked at: " + x + ", " + y);
+
             if (selectedCard != null) {
                 tableau[selectedTableau].addCard(selectedCard);
                 popSelectedCard();
@@ -53,6 +59,18 @@ public class GameManager {
             else {
                 selectedCard = tableau[selectedTableau].handleClick();
                 handleSetSelectedCardFrom(5 + selectedTableau);
+            }
+        }
+        else if (foundationIsClicked(x, y)) {
+            println("Foundation clicked at: " + x + ", " + y);
+            
+            if (selectedCard != null) {
+                foundations[selectedFoundation].addCard(selectedCard);
+                popSelectedCard();
+            }
+            else {
+                selectedCard = foundations[selectedFoundation].handleClick();
+                handleSetSelectedCardFrom(1 + selectedFoundation);
             }
         }
 
@@ -97,8 +115,14 @@ public class GameManager {
     }
 
     private void initFoundations(float margin) {
+        float startX = cardWidth / 2 + margin;
+        float endX = width - (cardWidth / 2 + margin);
+
         for (int i = 0; i < foundations.length; i++){
-            foundations[i] = new Waste(width - (margin + cardWidth * (3 - i)) - (cardWidth/2), cardHeight/2 + margin);
+            foundations[i] = new Foundation(lerpf(startX, endX, i + 3, tableau.length-1), 
+                cardHeight/2 + margin,
+                cardWidth, 
+                cardHeight);
             foundations[i].draw();
         }
     }
@@ -123,6 +147,18 @@ public class GameManager {
             boolean isClicked = tableau[i].isClicked(x, y);
             if (isClicked) {
                 selectedTableau = i;
+                return isClicked;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean foundationIsClicked(float x, float y) {
+        for (int i = 0; i < foundations.length; i++) {
+            boolean isClicked = foundations[i].isClicked(x, y);
+            if (isClicked) {
+                selectedFoundation = i;
                 return isClicked;
             }
         }
@@ -158,7 +194,7 @@ public class GameManager {
 
     private void clearHighlight() {
         waste.unselect();
-        for (Waste foundation: foundations) {
+        for (Foundation foundation: foundations) {
             foundation.unselect();
         }
         for (Tableau t: tableau) {
