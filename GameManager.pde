@@ -177,6 +177,7 @@ public class GameManager {
     private void clearSelected() {
         selectedCard = null;
         selectedCardFrom = null;
+        clearHighlight();
     }
 
     private void shuffleCards(ArrayList<Card> cards) {
