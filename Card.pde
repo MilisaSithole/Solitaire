@@ -58,6 +58,10 @@ public class Card {
         this.pos = pos;
     }
 
+    public PVector getPosition() {
+        return pos;
+    }
+
     private void drawRankAndSuit() {
         color colour = suit == Suits.HEARTS || suit == Suits.DIAMONDS ? color(250, 50, 100) : color(51);
 
