@@ -5,6 +5,8 @@ public class Stock extends CardHolder {
 
     @Override
     public void draw() {
+        noStroke();
+        
         if (cards.size() > 0) {
             fill(250, 50, 100);
             rectMode(CENTER);
