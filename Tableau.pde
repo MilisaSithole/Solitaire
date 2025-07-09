@@ -30,6 +30,9 @@ public class Tableau extends CardHolder {
             y > pos.y - cardHeight/2 && y < pos.y - cardHeight/2 + totalHeight) {
 
             selectedCards.clear();
+            if (cards.size() < 1) 
+                return true;
+
             if (cards.size() == 1) 
                 selectedCards.add(cards.get(0));
             else {
@@ -39,6 +42,10 @@ public class Tableau extends CardHolder {
                             selectedCards.add(cards.get(j));
                         }
                     }
+                }
+
+                if (selectedCards.size() < 1 ) {
+                    selectedCards.add(cards.get(cards.size() - 1));
                 }
             }
 
