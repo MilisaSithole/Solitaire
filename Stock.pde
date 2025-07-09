@@ -26,11 +26,13 @@ public class Stock extends CardHolder {
     }
 
     @Override
-    public Card handleClick() {
+    public ArrayList<Card> handleClick() {
         if (cards.size() > 0) {
-            return drawCard();
+            ArrayList<Card> cardToReturn = new ArrayList<>();
+            cardToReturn.add(drawCard());
+            return cardToReturn;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     private Card drawCard() {

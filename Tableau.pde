@@ -1,6 +1,7 @@
 public class Tableau extends CardHolder {
     float hiddenHeight, hiddenOffset, cardOffset, totalHeight;
     ArrayList<Card> hiddenCards = new ArrayList<>();
+    ArrayList<Card> selectedCards = new ArrayList<>();
 
     public Tableau(float x, float y) {
         super(x, y);
@@ -11,7 +12,6 @@ public class Tableau extends CardHolder {
         drawHidden();
 
         drawVisible();
-        // cards.get(cards.size()-1).draw(pos.x, pos.y + hiddenOffset);
     }
 
     @Override
@@ -28,10 +28,32 @@ public class Tableau extends CardHolder {
     public boolean isClicked(float x, float y) {
         if (x > pos.x - cardWidth/2 && x < pos.x + cardWidth/2 &&
             y > pos.y - cardHeight/2 && y < pos.y - cardHeight/2 + totalHeight) {
+
+            selectedCards.clear();
+            if (cards.size() == 1) 
+                selectedCards.add(cards.get(0));
+            else {
+                for (int i = cards.size() - 1; i >= 0; i--) {
+                    if (cards.get(i).isTopOfStack(x, y, cardOffset)) {
+                        for (int j = i; j < cards.size(); j++) {
+                            selectedCards.add(cards.get(j));
+                        }
+                    }
+                }
+            }
+
             return true;
         }
 
         return false;
+    }
+
+    @Override
+    public ArrayList<Card> handleClick() {
+        if (cards.size() < 1) return new ArrayList<>();
+
+        toggleSelected();
+        return selected ? new ArrayList<>(selectedCards) : new ArrayList<>();
     }
 
     @Override

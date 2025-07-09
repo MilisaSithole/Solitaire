@@ -5,7 +5,7 @@ public class GameManager {
     Tableau tableau[] = new Tableau[7];
     float cardWidth, cardHeight;
 
-    Card selectedCard;
+    ArrayList<Card> selectedCards = new ArrayList<>();
     Integer selectedCardFrom; // 0: waste, 1-4: foundations, 5-11: tableau
     Integer selectedTableau, selectedFoundation;
 
@@ -25,56 +25,70 @@ public class GameManager {
     }
 
     public void handleClick(float x, float y) {
-        if (stock.isClicked(x, y)){
-            println("Stock clicked at: " + x + ", " + y);
+        println("=======================");
+        println("HANDLING CLICK");
+        println("Selected Cards: " + selectedCards);
+        if (selectedCards != null) println("Number of Selected Cards: " + selectedCards.size());
+        println("Selected Card From: " + selectedCardFrom);
+
+        if (stock.isClicked(x, y)){ //<>//
+            println("STOCK CLICKED");
 
             clearHighlight();
-            selectedCard = stock.handleClick();
+            selectedCards = stock.handleClick();
 
-            if (selectedCard != null) {
-                waste.addCard(selectedCard);
-                selectedCard = null;
+            if (selectedCards != null && selectedCards.size() > 0) {
+                waste.addCard(selectedCards.get(0));
+                selectedCards.clear();
             }
             else
                 stock.initCards(waste.popAll());
         }
         else if (waste.isClicked(x, y)) {
-            println("Waste clicked at: " + x + ", " + y);
+            println("WASTE CLICKED");
 
-            if (selectedCard != null && selectedCardFrom != 0) {
-                returnSelectedCard();
+            if (selectedCards.size() > 0 && selectedCardFrom != 0) {
+                returnSelectedCards();
                 clearHighlight();
             }
 
-            selectedCard = waste.handleClick();
+            selectedCards = waste.handleClick();
             handleSetSelectedCardFrom(0);
         }
         else if (tableauIsClicked(x, y)) {
-            println("Tableau clicked at: " + x + ", " + y);
+            println("TABLEAU [" + selectedTableau + "] CLICKED");
+            println("Selected cards: " + selectedCards);
 
-            if (selectedCard != null) {
-                tableau[selectedTableau].addCard(selectedCard);
+            if (selectedCards.size() > 0) {
+                println("ADDING CARD[S] TO TABLEAU");
+
+                tableau[selectedTableau].addCards(selectedCards);
                 popSelectedCard();
             }
             else {
-                selectedCard = tableau[selectedTableau].handleClick();
+                println("SELECTING CARD[S] FROM TABLEAU");
+
+                selectedCards = tableau[selectedTableau].handleClick();
                 handleSetSelectedCardFrom(5 + selectedTableau);
             }
         }
         else if (foundationIsClicked(x, y)) {
-            println("Foundation clicked at: " + x + ", " + y);
+            println("FOUNDATION [" + selectedFoundation + "] CLICKED");
             
-            if (selectedCard != null) {
-                foundations[selectedFoundation].addCard(selectedCard);
+            if (selectedCards.size() > 0) {
+                foundations[selectedFoundation].addCard(selectedCards.get(0));
                 popSelectedCard();
             }
             else {
-                selectedCard = foundations[selectedFoundation].handleClick();
+                selectedCards = foundations[selectedFoundation].handleClick();
                 handleSetSelectedCardFrom(1 + selectedFoundation);
             }
         }
 
-        println("Selected Card: " + selectedCard);
+        println("Selected Card[s]: " + selectedCards);
+        println("Selected Card[s] From: " + selectedCardFrom);
+        println("=======================");
+        println();
     }
 
     private void initGame() {
@@ -166,30 +180,49 @@ public class GameManager {
         return false;
     }
 
-    private void returnSelectedCard() {
-        if (selectedCard != null) {
+    private void returnSelectedCards() {
+        println("=======================");
+        println("RETURNING SELECTED CARD[S]");
+
+        if (selectedCards.size() > 0) {
             if (selectedCardFrom == 0) {
-                waste.addCard(selectedCard);
+                println("Returning to waste");
+                waste.addCard(selectedCards.get(0));
             } else if (selectedCardFrom >= 1 && selectedCardFrom <= 4) {
-                foundations[selectedCardFrom - 1].addCard(selectedCard);
+                println("Returning to foundation [" + (selectedCardFrom - 1) + "]");
+                foundations[selectedCardFrom - 1].addCard(selectedCards.get(0));
             } else if (selectedCardFrom >= 5 && selectedCardFrom <= 11) {
-                tableau[selectedCardFrom - 5].addCard(selectedCard);
+                println("Returning to tableau [" + (selectedCardFrom - 5) + "]");
+                tableau[selectedCardFrom - 5].addCards(selectedCards);
             }
             clearSelected();
         }
+
+        println("=======================");
     }
 
     private void popSelectedCard() {
-        if (selectedCard != null) {
+        println("=======================");
+        println("POPPING SELECTED CARD[S]");
+        println("Selected cards [before]: " + selectedCards);
+        println("Selected card from [before]: " + selectedCardFrom);
+
+        if (selectedCards.size() > 0) {
             if (selectedCardFrom == 0) {
                 waste.popCard();
             } else if (selectedCardFrom >= 1 && selectedCardFrom <= 4) {
                 foundations[selectedCardFrom - 1].popCard();
             } else if (selectedCardFrom >= 5 && selectedCardFrom <= 11) {
-                tableau[selectedCardFrom - 5].popCard();
+                for (int i = 0; i < selectedCards.size(); i++) {
+                    tableau[selectedCardFrom - 5].popCard();
+                }
             }
             clearSelected();
         }
+
+        println("Selected cards [after]: " + selectedCards);
+        println("Selected card from [after]: " + selectedCardFrom);
+        println("=======================");
     }
 
     private void clearHighlight() {
@@ -203,17 +236,31 @@ public class GameManager {
     }
 
     private void handleSetSelectedCardFrom(int from) {
-        if (selectedCard != null) {
+        println("=======================");
+        println("SETTING SELECTED CARD[S] FROM");
+
+        // if (selectedCards != null && selectedCards.size() > 0) {
+        if (selectedCards.size() > 0) {
             selectedCardFrom = from;
         } else {
             selectedCardFrom = null;
         }
+
+        println("Selected card[s] from: " + selectedCardFrom);
+        println("=======================");
     }
 
     private void clearSelected() {
-        selectedCard = null;
+        println("=======================");
+        println("CLEARING SELECTED CARDS");
+
+        selectedCards.clear();
         selectedCardFrom = null;
         clearHighlight();
+
+        println("Selected card[s]: " + selectedCards);
+        println("Selected card[s] from: " + selectedCardFrom);
+        println("=======================");
     }
 
     private void shuffleCards(ArrayList<Card> cards) {

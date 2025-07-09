@@ -29,6 +29,17 @@ public abstract class CardHolder {
         cards.add(card);
     }
 
+    public void addCards(ArrayList<Card> newCards) {
+        if (cards.size() == 0 && newCards.size() > 0) {
+            cardWidth = newCards.get(0).getWidth();
+            cardHeight = newCards.get(0).getHeight();
+            fontSize = cardWidth * 0.3;
+            hiddenHeight = cardHeight * 0.1;
+        }
+
+        cards.addAll(newCards);
+    }
+
     public Card popCard() {
         if (cards.size() > 0) {
             return cards.remove(cards.size() - 1);
@@ -63,11 +74,13 @@ public abstract class CardHolder {
         return false;
     }
 
-    public Card handleClick() {
-        if (cards.size() == 0) return null;
+    public ArrayList<Card> handleClick() {
+        if (cards.size() == 0) return new ArrayList<>();
 
         toggleSelected();
-        return selected ? cards.get(cards.size() - 1) : null;
+        ArrayList<Card> selectedCards = new ArrayList<>();
+        selectedCards.add(cards.get(cards.size() - 1));
+        return selected ? selectedCards : new ArrayList<>();
     }
 
     protected void highlight() {
