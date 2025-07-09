@@ -75,8 +75,13 @@ public class GameManager {
             println("FOUNDATION [" + selectedFoundation + "] CLICKED");
             
             if (selectedCards.size() > 0) {
-                foundations[selectedFoundation].addCard(selectedCards.get(0));
-                popSelectedCard();
+                if (selectedCards.size() == 1) {
+                    foundations[selectedFoundation].addCard(selectedCards.get(0));
+                    popSelectedCard();
+                } else {
+                    println("Cannot add multiple cards to foundation");
+                    clearSelected();
+                }
             }
             else {
                 selectedCards = foundations[selectedFoundation].handleClick();
