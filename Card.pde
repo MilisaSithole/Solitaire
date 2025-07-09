@@ -12,8 +12,9 @@ public class Card {
         this.suit = suit;
         this.wid = width / 7.5 * 0.9;
         this.hei = wid / 2.5 * 3.5;
-        this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
         this.fontSize = wid * 0.3;
+        this.suitImg = loadImage("Assets/" + suit.getName() + ".png");
+        this.suitImg.resize((int)fontSize, 0);
     }
 
     public void draw() {
@@ -44,6 +45,10 @@ public class Card {
     public boolean isClicked(float x, float y) {
         return x > pos.x - wid/2 && x < pos.x + wid/2 &&
                y > pos.y - hei/2 && y < pos.y + hei/2;
+    }
+
+    public boolean isTopOfStack(float x, float y, float height) {
+        return isClicked(x, y) && (y < pos.y - hei/2 + height);
     }
 
     public float getWidth() {
@@ -89,7 +94,6 @@ public class Card {
         textAlign(CENTER, CENTER);
         imageMode(CENTER);
         textSize(visibleFontSize);
-        suitImg.resize((int)visibleFontSize, 0);
 
         float rankTextWidth = textWidth(getRankSymbol(rank));
         float totalWidth = rankTextWidth + suitImg.width;
