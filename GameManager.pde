@@ -48,8 +48,7 @@ public class GameManager {
             println("WASTE CLICKED");
 
             if (selectedCards.size() > 0 && selectedCardFrom != 0) {
-                returnSelectedCards();
-                clearHighlight();
+                clearSelected();
             }
 
             selectedCards = waste.handleClick();
