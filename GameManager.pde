@@ -37,9 +37,9 @@ public class GameManager {
             clearHighlight();
             selectedCards = stock.handleClick();
 
-            if (selectedCards != null && selectedCards.size() > 0) {
+            if (selectedCards.size() > 0) {
                 waste.addCard(selectedCards.get(0));
-                selectedCards.clear();
+                clearSelected();
             }
             else
                 stock.initCards(waste.popAll());
